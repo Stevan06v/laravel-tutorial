@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,3 +58,5 @@ Route::get('/data', function (){
 });
 
 Route::get('/info', [InfoController::class, 'show']);
+
+Route::get('/news/{id}', [NewsController::class, 'show']);

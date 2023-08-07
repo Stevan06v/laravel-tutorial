@@ -132,7 +132,7 @@ Route::get('/user', function () {
 
 * Controller erstellen:
 ** `php artisan make:controller ...` -> UserController
-** ``
+** `php artisan make::controller NewsController --resource` -> Controller mit all dem SchnickSchnak den man so braucht
 
 * `/app/Http/Controllers/UserController.php`
 
@@ -148,4 +148,5 @@ Route::get('/user', function () {
 [source,  PHP]
 ----
 Route::get('/info', [InfoController::class, 'show']);
+Route::get('/news/{id}', [NewsController::class, 'show']); # pass param to the controller
 ----
