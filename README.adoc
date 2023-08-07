@@ -1,0 +1,151 @@
+= Getting started with Laravel
+Stevan Vlajic
+1.0.0, {docdate}: Praktikum
+//:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+:experimental:
+
+
+//Need this blank line after ifdef, don't know why...
+
+// print the toc here (not at the default position)
+//toc::[]
+
+== How to install
+
+[source, bash]
+----
+composer create-project --prefer-dist laravel/laravel name
+----
+
+== How to start local-dev server
+
+[source, bash]
+----
+php artisan serve
+----
+
+== Wichtige directories
+
+* `/resources/views` -> eine view kann in der get route per `/hallo` zugewiesen hierbei ist du beachte, dass die view den namen hallo.php hat. demnach ist die datei die vom server im endeffekt interpretiert wird unter `/resources/views` zu finden. diese datei würde demnach `hallo.blade.php` heißen
+* `/routes/web.php` alle requests -> 
+
+Beispiel: 
+[source, PHP]
+----
+Route::get('/', function () {
+    return "hallo welt";
+    // return view('welcome');
+});
+
+Route::get('/hallo', function () {
+    return view('hallo');
+});
+----
+
+== Dynamische Routen
+[source, PHP]
+----
+Route::get('/user/{name}', function ($name) {
+    return "Hallo " . $name;
+});
+
+Route::get('/user/{name}/{lastname}', function ($name, $lastname) {
+    return "Hallo " . $name ." " . $lastname;
+});
+----
+
+== GET parameter auslesen
+[source, PHP]
+----
+Route::get('/products', function (){
+    $id = request('id');
+    echo "here is your product with the id: " . $id;
+});
+----
+* http://localhost:8000/products?id=124
+
+== Erstellen von VIEWS
+
+* `/resources/views/...` -> user.php
+
+Views zurück geben:
+
+[source, PHP]
+----
+Route::get('/user', function () {
+    return view('user');
+});
+----
+
+== Parameter für VIEWS mitgeben
+
+* `/resources/views/...` -> user.php
+
+* PHP
+
+[source, PHP]
+----
+Route::get('/user', function () {
+    $id = request('id');
+    $name = request('name');
+    $lastname = request('lastname');
+
+    return view('user',[
+        'id' => $id,
+        'name' => $name, 
+        'lastname' => $lastname
+    ]);
+});
+----
+
+* HTML: 
+
+[source, HTML]
+----
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Document</title>
+</head>
+<body>
+    <h1>Ich bin eine simple user view... :)</h1>
+    <h1>Du bist folgender user: <?php echo $id. ": " . $name . " " .$lastname; ?></h1>
+</body>
+</html>
+----
+
+
+* `/resources/views/...` -> user.blade.php
+
+[source, HTML]
+----
+<h1>Du bist folgender user: {{$id}} {{$name}} {{$lastname}}</h1>
+----
+
+== Controller erstellen zum auslagern der Logik
+
+* Controller erstellen:
+** `php artisan make:controller ...` -> UserController
+** ``
+
+* `/app/Http/Controllers/UserController.php`
+
+[source,  PHP]
+----
+  public function show(){
+        return 'Hallo aus dem Controller';
+    }
+----
+
+* `/routes/web.php`
+
+[source,  PHP]
+----
+Route::get('/info', [InfoController::class, 'show']);
+----
