@@ -31,9 +31,9 @@ php artisan serve
 == Wichtige directories
 
 * `/resources/views` -> eine view kann in der get route per `/hallo` zugewiesen hierbei ist du beachte, dass die view den namen hallo.php hat. demnach ist die datei die vom server im endeffekt interpretiert wird unter `/resources/views` zu finden. diese datei würde demnach `hallo.blade.php` heißen
-* `/routes/web.php` alle requests -> 
+* `/routes/web.php` alle requests ->
 
-Beispiel: 
+Beispiel:
 [source, PHP]
 ----
 Route::get('/', function () {
@@ -96,13 +96,13 @@ Route::get('/user', function () {
 
     return view('user',[
         'id' => $id,
-        'name' => $name, 
+        'name' => $name,
         'lastname' => $lastname
     ]);
 });
 ----
 
-* HTML: 
+* HTML:
 
 [source, HTML]
 ----
@@ -150,3 +150,54 @@ Route::get('/user', function () {
 Route::get('/info', [InfoController::class, 'show']);
 Route::get('/news/{id}', [NewsController::class, 'show']); # pass param to the controller
 ----
+
+== Laravel Filament install
+
+* `laravel new filament-test --jet`
+* `php artisan migrate`
+* `php artisan serve`
+* `composer require filament/filament:"^2.0"`
+
+
+[source,  BASH]
+----
+"post-update-cmd": [
+    // ...
+    "@php artisan filament:upgrade"
+],
+----
+* `php artisan make:filament-user`
+
+=== Resources
+* Resources sind zum Managen vom models
+** `php artisan make:filament-resource Customer` oder so ...
+
+=== Models
+* Datenmodel wird in filament als Model erstellt
+* `php artisan make:model Country -m`
+* `php artisan make:model Country -m`
+* ...
+
+=== Workflow
+* Datenmodell
+* Model erstellen
+* Migrations bearbeiten -> an ERD anpassen
+* Resources bearbeiten
+* Nach dem Model alles migrieren
+* Model bearbeiten
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
