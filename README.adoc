@@ -154,6 +154,8 @@ Route::get('/news/{id}', [NewsController::class, 'show']); # pass param to the c
 == Laravel Filament install
 
 * `laravel new filament-test --jet`
+* `composer require laravel/breeze --dev`
+* `php artisan breeze:install` 
 * `php artisan migrate`
 * `php artisan serve`
 * `composer require filament/filament:"^2.0"`
@@ -166,7 +168,12 @@ Route::get('/news/{id}', [NewsController::class, 'show']); # pass param to the c
     "@php artisan filament:upgrade"
 ],
 ----
+
 * `php artisan make:filament-user`
+
+
+=== Migrations Refresh
+* `php atrisan migrate:refresh`
 
 === Resources
 * Resources sind zum Managen vom models
@@ -187,17 +194,118 @@ Route::get('/news/{id}', [NewsController::class, 'show']); # pass param to the c
 * Model bearbeiten
 
 
+=== Add groups
+* `protected static ?string $navigationGroup = 'User Management';`
+* On top of a Resource
+
+=== Icons
+* `protected static ?string $navigationIcon = `
+*  On top of resources
+* Icons can be found under: `https://heroicons.com/`
+* Example:     
+** `protected static ?string $navigationIcon = 'heroicon-o-arrow-down-right';`
+
+=== Order groups
+* `protected static ?int $navigationSort = 1;`
+* Add it to every resource 
+
+=== Custom Widgets
+* `php artisan make:filament-widget CustomerOverview --resource=CustomerResource`
+* `php artisan make:filament-widget UserStatsOveriew --stats-overview`
+* Edit list under /pages/Listusers
 
 
+=== Cards
+* `https://filamentphp.com/docs/2.x/admin/dashboard/stats`
+
+[source, PHP]
+-----
+ Card::make('People Count', $people_count)
+                ->icon("heroicon-o-users")
+            ->description("Wie viele Mitarbeiter hat das Unternehmen zurzeit?")
+            ->descriptionIcon('heroicon-o-trending-up'),
+
+-----
 
 
+[source, PHP]
+-----
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            UserOverview::class,
+        ];
+    }
+
+-----
+
+==== Dashboard Widget
+* `php artisan make:filament-widget Dasboard/PeopleCount --stats-overview`
+
+[source, PHP]
+-----
+protected function getCards(): array
+    {
+        $people_count = People::all()->count();
+        $user_count = User::all()->count();
 
 
+        return [
+            Card::make('People Count', $people_count)
+        ];
+    
+-----
 
 
+=== Resources Widgets
+* `php artisan make:filament-widget PeopleOverview --stats-overview`
+* Implementieren von Crads im PeopleOverview
+* ListPeople:
+
+[source, PHP]
+----
+ protected function getHeaderWidgets(): array
+    {
+        return [PeopleOverview::class];
+    }
+
+----
+
+* People Resource:
+
+[source, PHP]
+-----
+ public static function getWidgets(): array
+    {
+        return [
+            PeopleOverview::class,
+        ];
+    }
+-----
+
+* https://filamentphp.com/docs/2.x/admin/resources/widgets
 
 
+== Adding Custom SEARCHBAR
+* In some resource file
+* `protected static ?string $recordTitleAttribute = 'name';`
+
+== Chnage Navigation props
+* `protected static ?string $navigationIcon = 'heroicon-o-document-text';`
+* `protected static ?string $navigationLabel = 'Custom Navigation Label';`
+* `protected static ?int $navigationSort = 3;`
 
 
+=== Notifications
+* https://filamentphp.com/docs/2.x/notifications/sending-notifications 
+* unter /pages/editPeople.class oder so 
 
+=== Image Upload
 
+[source, PHP]
+-----
+FileUpload::make('image_path')
+                    ->columns(1)
+                    ->directory('test-images')
+-----
