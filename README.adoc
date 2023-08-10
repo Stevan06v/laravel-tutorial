@@ -177,7 +177,7 @@ Route::get('/news/{id}', [NewsController::class, 'show']); # pass param to the c
 
 === Resources
 * Resources sind zum Managen vom models
-** `php artisan make:filament-resource Customer` oder so ...
+** `php artisan make:filament-resource Customer` 
 
 === Models
 * Datenmodel wird in filament als Model erstellt
@@ -291,11 +291,20 @@ protected function getCards(): array
 * In some resource file
 * `protected static ?string $recordTitleAttribute = 'name';`
 
-== Chnage Navigation props
+== Change Navigation props
 * `protected static ?string $navigationIcon = 'heroicon-o-document-text';`
 * `protected static ?string $navigationLabel = 'Custom Navigation Label';`
 * `protected static ?int $navigationSort = 3;`
 
+== Custom Label
+
+[source, PHP]
+-----
+  public static function getNavigationLabel(): string
+    {
+        return 'Ich bin ein custom label';
+    }
+-----
 
 === Notifications
 * https://filamentphp.com/docs/2.x/notifications/sending-notifications 
@@ -309,3 +318,16 @@ FileUpload::make('image_path')
                     ->columns(1)
                     ->directory('test-images')
 -----
+
+=== Tailwind themes
+* app/Providers/Filament/AdminPanelProvider.php
+
+
+
+=== Startup project
+* git clone 
+* composer install
+* php artisan key:generate
+* php artisan migrate --seed
+* php artisan migrate:fresh --seed
+* http://stiftung.test/admin
